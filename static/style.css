@@ -1,0 +1,136 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Body background */
+body {
+    background: #141414;
+    height: 100vh;
+}
+
+/* App container */
+.app {
+    max-width: 900px;
+    height: 95vh;
+    margin: auto;
+    background: linear-gradient(
+        180deg,
+        #D51317,
+        #2E1414FF,
+        #141414
+    );
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: #2E1414FF;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.logo {
+    background: #D51317;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chat area */
+.chat-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Bot message */
+.bot-msg {
+    background: #331818FF;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    max-width: 75%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* User message */
+.user-msg {
+    background: #6B060AFF;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    max-width: 75%;
+    margin-left: auto;
+    text-align: right;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* Input area */
+.input-area {
+    background: #2E1414FF;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #141414;
+    color: white;
+}
+
+.input-area input::placeholder {
+    color: #aaa;
+}
+
+.input-area button {
+    background: #D51317;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.input-area button:hover {
+    opacity: 0.85;
+}
+
+/* Scrollbar (optional) */
+.chat-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-area::-webkit-scrollbar-thumb {
+    background: #6B060AFF;
+    border-radius: 10px;
+}
+.typing {
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
