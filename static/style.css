@@ -10,127 +10,132 @@
 body {
     background: #141414;
     height: 100vh;
+    display: flex;
+    justify-content: center; /* Grok ki tarah center mein */
 }
 
 /* App container */
 .app {
-    max-width: 900px;
-    height: 95vh;
-    margin: auto;
+    width: 100%;
+    max-width: 850px; /* Grok style wide look */
+    height: 100vh;
     background: linear-gradient(
         180deg,
         #D51317,
         #2E1414FF,
         #141414
-    );
+    ); /* Aapka pasandida gradient */
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
-    overflow: hidden;
+    border-left: 1px solid #331818;
+    border-right: 1px solid #331818;
 }
 
 /* Header */
 .header {
-    background: #2E1414FF;
-    padding: 15px;
+    background: rgba(46, 20, 20, 0.8); /* Transparent dark grey */
+    padding: 15px 25px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     color: white;
-    font-size: 18px;
-    font-weight: bold;
+    border-bottom: 1px solid rgba(213, 19, 23, 0.3); /* Patli red line */
 }
 
 .logo {
     background: #D51317;
     width: 35px;
     height: 35px;
-    border-radius: 50%;
+    border-radius: 8px; /* Squircle shape */
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
 }
 
 /* Chat area */
 .chat-area {
     flex: 1;
-    padding: 20px;
+    padding: 30px 20px;
     overflow-y: auto;
-}
-
-/* Bot message */
-.bot-msg {
-    background: #331818FF;
-    color: white;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    max-width: 75%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-
-/* User message */
-.user-msg {
-    background: #6B060AFF;
-    color: white;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    max-width: 75%;
-    margin-left: auto;
-    text-align: right;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-}
-
-/* Input area */
-.input-area {
-    background: #2E1414FF;
-    padding: 15px;
     display: flex;
+    flex-direction: column;
+    gap: 20px; /* Messages ke beech mein gap */
+}
+
+/* Bot message - Minimalist Red Style */
+.bot-msg {
+    background: rgba(51, 24, 24, 0.9); /* Dark Grey-Red tint */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 18px 18px 18px 2px;
+    max-width: 80%;
+    align-self: flex-start;
+    border: 1px solid rgba(213, 19, 23, 0.2); /* Halka red border */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* User message - Bold Red Style */
+.user-msg {
+    background: #6B060AFF; /* Aapka dark red */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 18px 18px 2px 18px;
+    max-width: 80%;
+    align-self: flex-end; /* Grok ki tarah right side */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Input area - Iconic Floating Pill Bar */
+.input-area {
+    padding: 20px 30px;
+    background: transparent;
+    display: flex;
+    align-items: center;
     gap: 10px;
 }
 
 .input-area input {
     flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: #141414;
+    padding: 15px 20px;
+    border-radius: 30px; /* Pill shape like Grok */
+    border: 1px solid #444;
+    background: #141414; /* Dark grey input */
     color: white;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-.input-area input::placeholder {
-    color: #aaa;
+.input-area input:focus {
+    border-color: #D51317; /* Focus hone par red glow */
 }
 
 .input-area button {
-    background: #D51317;
+    background: #D51317; /* Aapka signature red */
     border: none;
-    padding: 12px 18px;
-    border-radius: 8px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Round button */
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
 }
 
 .input-area button:hover {
-    opacity: 0.85;
+    transform: scale(1.05);
+    background: #f0161b;
 }
 
-/* Scrollbar (optional) */
+/* Custom Scrollbar */
 .chat-area::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
-
 .chat-area::-webkit-scrollbar-thumb {
     background: #6B060AFF;
     border-radius: 10px;
-}
-.typing {
-    font-style: italic;
-    opacity: 0.8;
-    margin-bottom: 15px;
-}
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
 }
