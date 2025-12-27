@@ -1,25 +1,35 @@
 import os
-from flask import Flask, render_template, request, Response # <--- 'Response' add kiya streaming ke liye
+from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-# .env file load karna
 load_dotenv()
-
 app = Flask(__name__)
-
-# API Key load karna
 API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Gemini Setup
+# --- MODEL SELECTION LOGIC ---
+model = None
 try:
     genai.configure(api_key=API_KEY)
-    # Fast model 'gemini-1.5-flash' use kar rahe hain
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    print("✅ AI Connected for Streaming!")
+    
+    # Available models ki list nikalna
+    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    print(f"Available Models: {available_models}")
+
+    # Sabse pehle 'gemini-1.5-flash' try karo, phir 'gemini-1.5-pro', phir jo bhi mile
+    if any("gemini-1.5-flash" in m for m in available_models):
+        model_name = "gemini-1.5-flash"
+    elif any("gemini-1.5-pro" in m for m in available_models):
+        model_name = "gemini-1.5-pro"
+    else:
+        # Agar upar waale nahi mile toh jo pehla model hai wahi le lo
+        model_name = available_models[0].split('/')[-1]
+
+    model = genai.GenerativeModel(model_name)
+    print(f"✅ AI Connected using model: {model_name}")
+
 except Exception as e:
     print(f"❌ Setup Error: {e}")
-    model = None
 
 @app.route("/")
 def home():
@@ -27,31 +37,20 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
-    user_msg = data.get("message")
+    try:
+        data = request.get_json()
+        user_msg = data.get("message")
 
-    if not model:
-        return "AI Setup Error!", 500
+        if not model:
+            return jsonify({"reply": "AI setup sahi se nahi hua. Console check karein."})
 
-    # --- YAHA SE STREAMING LOGIC SHURU HAI ---
-    def generate():
-        try:
-            # stream=True karne se AI ek-ek chunk (tukda) bhejta hai
-            response = model.generate_content(user_msg, stream=True)
-            
-            for chunk in response:
-                if chunk.text:
-                    # 'yield' ka matlab hai ki pura answer soche bina, 
-                    # jitna milta jaye utna browser ko turant bhej do
-                    yield chunk.text 
-        except Exception as e:
-            yield f"Error: {str(e)}"
+        # AI se response mangna
+        response = model.generate_content(user_msg)
+        return jsonify({"reply": response.text})
 
-    # Hum 'Response' bhej rahe hain 'text/plain' format mein
-    # Taaki browser ise ek continuous stream ki tarah receive kare
-    return Response(generate(), mimetype='text/plain')
-    # --- STREAMING LOGIC KHATAM ---
+    except Exception as e:
+        print(f"❌ Chat Error: {e}")
+        return jsonify({"reply": f"Error: {str(e)}"})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(debug=True)
